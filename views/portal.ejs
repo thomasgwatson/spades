@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <script src="/lib/leaflet/leaflet.js"></script>
+  <script src="/lib/leaflet.markercluster/leaflet.markercluster.js"></script>
+  <script src="/lib/react/react-with-addons.min.js"></script>
+  <script src="/lib/react-router/react-router.13.3.js"></script>
+
+  <% if(useJsx) { %>
+  <script src="/lib/react/JSXTransformer.js"></script>
+  <script type="text/jsx" src="/lib/app/appRouter.jsx"></script>
+  <script type="text/jsx" src="/lib/app/base.jsx"></script>
+  <% } else { %>
+  <script src="/lib/app/clientApp.js"></script>
+  <% } %>
+
 </head>
 
 <body>

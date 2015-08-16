@@ -5,5 +5,7 @@ exports.api = function(req, res) {
 };
 
 exports.order = function(req, res) {
-  res.render('portal');
+  res.render('portal', {
+    'useJsx': config.useJsx
+  });
 };
