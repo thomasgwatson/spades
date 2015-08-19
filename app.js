@@ -2,6 +2,7 @@ var config = require('./config');
 var express = require('express');
 var pg = require('pg.js');
 var fs = require('fs');
+// var bodyParser = require('body-parser');
 
 var routes = require('./routes');
 
@@ -17,26 +18,20 @@ var app = express();
 var IS_DEV = app.get('env') === 'development';
 
 app.disable('x-powered-by');
-app.use(express.bodyParser());
-app.use(express.methodOverride());
+// app.use(bodyParser.json());
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(errorHandler);
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
-
-function errorHandler(err, req, res, next) {
-  console.log(err);
+var errorHandler = function(err, req, res, next) {
+  console.error(err);
   res.status(500);
-    res.send("ERROR");
+  res.render('500');
 };
+
+app.use(errorHandler);
 
 if(config.http.sslonly != null) {
   console.log('Redirecting HTTP --> HTTPS');
@@ -46,8 +41,8 @@ if(config.http.sslonly != null) {
 app.get('/', routes.base);
 app.all('/api/*', routes.api);
 
-app.use(function(req, res, next) {
-  res.redirect('/');
+app.all('*', function(err, req, res, next){
+  res.redirect('/')
 });
 
 process.on('uncaughtException', function(err) {
