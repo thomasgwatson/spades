@@ -9,6 +9,17 @@ var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
 var State = Router.State;
 
+var backingImages = [ 'bogataforbidden.jpg',
+                      'bogatapropaganda.jpg',
+                      'nyc.jpg',
+                      'oakland.jpg',
+                      'openspace.jpg',
+                      'perthjourney.jpg',
+                      'perthlastchance.jpg',
+                      'portland.jpg',
+                      'sfladies1.jpg',
+                      'sfladies2.jpg' ]
+
 var appHandler = React.createClass({
   mixins: [State],
   getInitialState: function() {
@@ -58,7 +69,7 @@ var homeHandler = React.createClass({
   },
   render: function() {
     if(true) {
-      return (<HomePage />);
+      return (<HomePage backingImages={backingImages}/>);
     }
     return (<div />);
   }

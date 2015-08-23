@@ -1,0 +1,26 @@
+html, body {
+  height: 100%;
+}
+
+.container {
+  min-height: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.outer-image{
+  height: 100%;
+}
+
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+
+  /* Set up proportionate scaling */
+  width: auto;
+  height: 100%;
+
+  /* Set up positioning */
+  top: 0;
+  position:absolute;
+}
