@@ -9,7 +9,7 @@ var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
 var State = Router.State;
 
-var backingImages = [ 'bogataforbidden.jpg',
+var backingImages = [
                       'bogatapropaganda.jpg',
                       'nyc.jpg',
                       'oakland.jpg',

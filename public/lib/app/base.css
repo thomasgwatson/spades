@@ -24,3 +24,34 @@ img.bg {
   top: 0;
   position:absolute;
 }
+
+.title-text {
+  color: white;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  width: auto;
+  height: auto;
+  -webkit-transition: left 1s ease;
+  transition: left 1s ease;
+  font-size: 4vw;
+}
+
+.blurb-text {
+  color: white;
+  position: absolute;
+  bottom: -60px;
+  right: 50px;
+  width: auto;
+  height: auto;
+  -webkit-transition: bottom 1s ease;
+  transition: bottom 1s ease;
+  font-size: 4vw;
+}
+
+/*@keyframes move {
+  50% {
+     transform: translate(100px, 0px);
+  }
+}*/
+
