@@ -8,6 +8,11 @@ html, body {
   position: relative;
 }
 
+@font-face{
+  font-family: "indie-font";
+  src: url("/fonts/ruba-webfont.ttf")
+}
+
 .outer-image{
   height: 100%;
 }
@@ -23,18 +28,33 @@ img.bg {
   /* Set up positioning */
   top: 0;
   position:absolute;
+  z-index: 1;
+}
+
+.scrim{
+  bottom: 0px;
+  height: 18vh;
+  left: -1px;
+  width: 101%;
+  position: absolute;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.02),  rgba(0, 0, 0, 0.9));
+  filter: blur(100%)
 }
 
 .title-text {
   color: white;
   position: absolute;
-  bottom: 30px;
+  bottom: 10px;
   left: 30px;
   width: auto;
   height: auto;
   -webkit-transition: left 1s ease;
   transition: left 1s ease;
   font-size: 4vw;
+  z-index: 3;
+  font-family: indie-font;
+
 }
 
 .blurb-text {
@@ -46,7 +66,9 @@ img.bg {
   height: auto;
   -webkit-transition: bottom 1s ease;
   transition: bottom 1s ease;
+  z-index: 3;
   font-size: 4vw;
+  font-family: indie-font;
 }
 
 /*@keyframes move {

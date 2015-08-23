@@ -6,7 +6,8 @@ var HomePage = React.createClass({
   getInitialState: function() {
     return { image: this.props.backingImages[(Math.floor(Math.random() * 8))],
       offset: 0,
-      bottom: -50
+      bottom: -50,
+      imageWidth: '100%'
     };
   },
   getDefaultProps: function(){
@@ -16,9 +17,10 @@ var HomePage = React.createClass({
   componentDidMount: function() {
     var me = this
     var scrollToCenter = function(){
-      var offSetRight = (document.getElementById('img').offsetWidth - document.documentElement.offsetWidth )/2
+      var imageWidth = document.getElementById('img').offsetWidth
+      var offSetRight = (imageWidth - document.documentElement.offsetWidth )/2
       window.scrollTo(offSetRight, 0);
-      me.setState({offset: offSetRight, bottom: 30})
+      me.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth})
     }
     window.setTimeout( scrollToCenter, 100)
 
@@ -27,6 +29,8 @@ var HomePage = React.createClass({
     return(
       <div className="outer-image">
         <img ref='img' id='img' src={'/images/backing/' + this.state.image} className="bg" />
+        <div className='scrim' id='scrim' style={{width: this.state.imageWidth}}>
+        </div>
         <div className='title-text' id='title-text' style={{left: this.state.offset + 50 + 'px'}}>
           <span>Graffi.so</span>
         </div>
