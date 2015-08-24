@@ -69,7 +69,12 @@ var homeHandler = React.createClass({
   },
   render: function() {
     if(true) {
-      return (<HomePage backingImages={backingImages}/>);
+      return (
+        <div className="heighty">
+          <HomePage backingImages={backingImages}/>
+          <Map />
+        </div>
+        );
     }
     return (<div />);
   }

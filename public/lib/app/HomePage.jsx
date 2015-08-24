@@ -22,7 +22,7 @@ var HomePage = React.createClass({
       window.scrollTo(offSetRight, 0);
       me.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth})
     }
-    window.setTimeout( scrollToCenter, 100)
+    window.setTimeout( scrollToCenter, 200)
 
   },
   rollDownToMap: function(evt){
@@ -34,7 +34,7 @@ var HomePage = React.createClass({
   },
   render: function(){
     return(
-      <div className="outer-image">
+      <div className="container heighty">
         <img ref='img' id='img' src={'/images/backing/' + this.state.image} className="bg" />
         <div className='scrim' id='scrim' style={{width: this.state.imageWidth}}>
         </div>

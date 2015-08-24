@@ -1,4 +1,4 @@
-html, body {
+html, body, .heighty{
   height: 100%;
 }
 
@@ -15,6 +15,14 @@ html, body {
 
 .outer-image{
   height: 100%;
+}
+
+#map {
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  position: absolute;
 }
 
 img.bg {
@@ -55,7 +63,6 @@ img.bg {
   z-index: 3;
   font-family: indie-font;
 }
-
 
 .blurb-text {
   color: white;
