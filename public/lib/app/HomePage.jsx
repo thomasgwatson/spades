@@ -25,6 +25,13 @@ var HomePage = React.createClass({
     window.setTimeout( scrollToCenter, 100)
 
   },
+  rollDownToMap: function(evt){
+    evt.preventDefault()
+    var target = $('#map')
+    $('html,body').animate({
+          scrollTop: target.offset().top
+        }, 1000);
+  },
   render: function(){
     return(
       <div className="outer-image">
@@ -35,7 +42,7 @@ var HomePage = React.createClass({
           <span>Graffi.so</span>
         </div>
         <div className='blurb-text' id='blurb-text' style={{right: -this.state.offset + 50 + 'px', bottom: this.state.bottom}}>
-          <span>Street Art Discovery Engine</span>
+          <span>Street Art Discovery Engine</span>{" "}<span onClick={this.rollDownToMap} className="fa fa-chevron-circle-down" id="arrow"></span>
         </div>
       </div>
       )
