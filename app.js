@@ -39,7 +39,7 @@ if(config.http.sslonly != null) {
 }
 
 app.get('/', routes.base);
-app.all('/api/*', routes.api);
+app.get('/api/data', routes.api);
 
 app.all('*', function(err, req, res, next){
   res.redirect('/')
@@ -47,7 +47,7 @@ app.all('*', function(err, req, res, next){
 
 process.on('uncaughtException', function(err) {
   console.log('Exception: ' + err);
-  console.log(error.stack);
+  console.log(err.stack);
 });
 
 http.createServer(app).listen(config.http.port, function() {

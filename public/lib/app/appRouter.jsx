@@ -61,7 +61,8 @@ var homeHandler = React.createClass({
     return {
       lat: 37.8043,
       lng: -122.3952,
-      zoom: 14
+      zoom: 14,
+      data: false
     };
   },
   componentDidMount: function() {
@@ -75,8 +76,15 @@ var homeHandler = React.createClass({
         me.setState({lat: position.coords.latitude, lng: position.coords.longitude});
       });
     }
-
-
+  },
+  requestData: function(lat, lng){
+    $.get("/api/data?lat=" + lat +"&lng=" + lng).done(
+      function(data) {
+        me.setState({
+          data: data
+        });
+      }
+    );
   },
   render: function() {
     var lat, lng, zoom
@@ -85,11 +93,11 @@ var homeHandler = React.createClass({
     if(this.getQuery(lat).length){lat = this.getQuery(lat)}
     if(this.getQuery(lng).length){lng = this.getQuery(lng)}
 
-
     return (
       <div className="heighty">
-        <HomePage backingImages={backingImages}/>
-        <Map lat={lat} lng={lng}  />
+        <HomePage backingImages={backingImages} />
+    this.requestData()
+        <Map lat={lat} lng={lng} data={this.state.data} requestData={this.requestData} />
       </div>
       );
   }
