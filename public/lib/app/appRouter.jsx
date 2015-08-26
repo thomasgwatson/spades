@@ -58,25 +58,40 @@ var IframeMapHandler = React.createClass({
 var homeHandler = React.createClass({
   mixins: [Router.State],
   getInitialState: function() {
-    return {};
+    return {
+      lat: 37.8043,
+      lng: -122.3952,
+      zoom: 14
+    };
   },
   componentDidMount: function() {
     //load data based on queryStrings.
     //queryString should specify centroid of map and zoom level
     //queryString should specify time-period under review
-    this.getQuery()
+    var me = this
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        me.setState({lat: position.coords.latitude, lng: position.coords.longitude});
+      });
+    }
+
 
   },
   render: function() {
-    if(true) {
-      return (
-        <div className="heighty">
-          <HomePage backingImages={backingImages}/>
-          <Map />
-        </div>
-        );
-    }
-    return (<div />);
+    var lat, lng, zoom
+    lat = this.state.lat
+    lng = this.state.lng
+    if(this.getQuery(lat).length){lat = this.getQuery(lat)}
+    if(this.getQuery(lng).length){lng = this.getQuery(lng)}
+
+
+    return (
+      <div className="heighty">
+        <HomePage backingImages={backingImages}/>
+        <Map lat={lat} lng={lng}  />
+      </div>
+      );
   }
 })
 

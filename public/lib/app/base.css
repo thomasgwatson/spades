@@ -17,14 +17,6 @@ html, body, .heighty{
   height: 100%;
 }
 
-#map {
-  left: 0px;
-  top: 0px;
-  bottom: 0px;
-  right: 0px;
-  position: absolute;
-}
-
 img.bg {
   /* Set rules to fill background */
   min-height: 100%;

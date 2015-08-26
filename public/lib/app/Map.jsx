@@ -11,6 +11,14 @@ var Map = React.createClass({
       lng: -122.3952
     }
   },
+  getInitialState: function(){
+    return {scrollPositionLeft: 0}
+  },
+  componentWillReceiveProps: function(nextProps){
+    if(nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ){
+      this.map.setView(new L.LatLng(nextProps.lat, nextProps.lng), nextProps.zoom)
+    }
+  },
   componentDidMount: function(){
 
     var lat = this.props.lat
@@ -33,20 +41,37 @@ var Map = React.createClass({
       }
     );
 
-    this.backgroundTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/tokugawa.iblnm3f7/{z}/{x}/{y}.png', {
+    this.backgroundTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/tokugawa.n9764446/{z}/{x}/{y}.png', {
       attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
     }) // Mapbox map tiles
 
     this.map.addLayer(this.backgroundTiles);
     this.map.addLayer(this.imageLayer);
     this.map.addLayer(this.clusterLayer);
+    var me = this
+
+    $(window).scroll(function () {
+      var scrollPositionLeft = $(window).scrollLeft();
+      me.setState({scrollPositionLeft: scrollPositionLeft})
+    });
 
 
   },
   render: function(){
+    var scrollOffsetLeft = this.state.scrollPositionLeft
+
+    var mapStyling = {
+        left: scrollOffsetLeft,
+        top: 0,
+        bottom: 0,
+        right: -scrollOffsetLeft,
+        position: 'absolute',
+        backgroundColor: "f1f1f1"
+      }
+
     return (
       <div className="container">
-        <div ref='leafletTarget' id="map">
+        <div ref='leafletTarget' id="map" style={mapStyling}>
         </div>
       </div>
       )
