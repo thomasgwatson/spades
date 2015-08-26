@@ -56,7 +56,7 @@ var IframeMapHandler = React.createClass({
 })
 
 var homeHandler = React.createClass({
-  mixins: [Router.State],
+  mixins: [Router.State, Navigation],
   getInitialState: function() {
     return {
       lat: 37.8043,
@@ -69,35 +69,23 @@ var homeHandler = React.createClass({
     //load data based on queryStrings.
     //queryString should specify centroid of map and zoom level
     //queryString should specify time-period under review
-    var me = this
-
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        me.setState({lat: position.coords.latitude, lng: position.coords.longitude});
-      });
-    }
-  },
-  requestData: function(lat, lng){
-    $.get("/api/data?lat=" + lat +"&lng=" + lng).done(
-      function(data) {
-        me.setState({
-          data: data
-        });
-      }
-    );
   },
   render: function() {
     var lat, lng, zoom
     lat = this.state.lat
     lng = this.state.lng
-    if(this.getQuery(lat).length){lat = this.getQuery(lat)}
-    if(this.getQuery(lng).length){lng = this.getQuery(lng)}
+    zoom = 13
+    if(this.getQuery().lat){lat = this.getQuery().lat}
+    if(this.getQuery().lng){lng = this.getQuery().lng}
+    if(this.getQuery().zoom){zoom = this.getQuery().zoom}
 
     return (
       <div className="heighty">
         <HomePage backingImages={backingImages} />
-    this.requestData()
-        <Map lat={lat} lng={lng} data={this.state.data} requestData={this.requestData} />
+        <Map lat={lat}
+             lng={lng}
+             zoom={zoom}
+             transitionTo={this.transitionTo} />
       </div>
       );
   }

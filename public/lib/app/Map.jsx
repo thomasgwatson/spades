@@ -12,20 +12,33 @@ var Map = React.createClass({
     }
   },
   getInitialState: function(){
-    return {scrollPositionLeft: 0}
+    return {
+      scrollPositionLeft: 0,
+      data: false
+    }
+  },
+  requestData: function(lat, lng){
+    var me = this
+    $.get("/api/data?lat=" + lat +"&lng=" + lng).done(
+      function(data) {
+        me.newData(data)
+      }
+    );
+  },
+  newData: function(data){
+      // this.markerLayer.clearLayers()
+      this.heatLayer.clearLayers()
+      var heatData = this.buildHeatLayer(data)
+      // var markerData = this.buildMarkerLayer(nextProps.data)
+      this.heatLayer.addLayer(heatData)
   },
   componentWillReceiveProps: function(nextProps){
     if(nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ){
       this.map.setView(new L.LatLng(nextProps.lat, nextProps.lng), nextProps.zoom)
+      this.requestData(nextProps.lat, nextProps.lng)
     }
 
-    if(nextProps.data){
-      this.markerLayer.clearLayers()
-      this.heatLayer.clearLayers()
-      var heatData = this.buildHeatLayer(nextProps.data)
-      // var markerData = this.buildMarkerLayer(nextProps.data)
-      this.heatLayer.addLayer(heatData)
-    }
+    // Only requestData if the lat and lng is sufficiently different
   },
   buildMarkerLayer: function(data){
 
@@ -37,21 +50,25 @@ var Map = React.createClass({
       var entry = data[i]
       latlngs.push(L.latLng(entry.lat, entry.lng))
     }
-    return L.heatLayer(latlngs, {gradient: {0.3: "#FFD700", 0.4:"#34495e", 0.8: "#0AC899"}, blur:40});
+    return L.heatLayer(latlngs, {gradient: {0.2: "#FFD700", 0.9:"#34495e"}, blur:20});
   },
   componentDidMount: function(){
+    var me = this
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        // me.setState({lat: position.coords.latitude, lng: position.coords.longitude});
+        me.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), me.props.zoom)
+      });
+    }
 
     var lat = this.props.lat
     var lng = this.props.lng
-    // var attrOptions = {
-    //   position: "bottomright"
-    // }
-    // var attribution = new L.control.attribution(attrOptions)
 
     this.map = new L.Map(this.refs.leafletTarget.getDOMNode(), {
         layers: [],
         center: new L.LatLng(lat, lng),
-        zoom: 13,
+        zoom: this.props.zoom,
         minZoom: 10,
         maxBounds:[[-85,-180.0],[85,180.0]],
         zoomControl: false,
@@ -61,22 +78,50 @@ var Map = React.createClass({
       }
     );
 
+    this.requestData(lat,lng)
+
     this.backgroundTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/tokugawa.n9764446/{z}/{x}/{y}.png', {
       attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
     }) // Mapbox map tiles
 
-    console.log(this.props.data)
-
     this.map.addLayer(this.backgroundTiles);
     this.map.addLayer(this.markerLayer);
     this.map.addLayer(this.heatLayer);
-    var me = this
 
     $(window).scroll(function () {
       var scrollPositionLeft = $(window).scrollLeft();
       me.setState({scrollPositionLeft: scrollPositionLeft})
     });
 
+    this.map.on('zoomend', this.updateZoom);
+    this.map.on('moveend', this.updateCenter);
+
+  },
+  updateCenter: function(evt){
+    if(evt){
+      this.updateURL({
+        center: this.map.getCenter(),
+        zoom: this.map.getZoom()
+      })
+    }
+  },
+  updateZoom: function(evt){
+    if(evt){
+      this.updateURL({
+        center: this.map.getCenter(),
+        zoom: this.map.getZoom()
+      })
+    }
+  },
+  updateURL: function(options){
+
+    var getParams = {};
+    var getQuery = {
+      zoom: options.zoom || this.map.getZoom(),
+      lat: options.center.lat || this.map.getCenter().lat,
+      lng: options.center.lng || this.map.getCenter().lng
+    };
+    this.props.transitionTo('/', getParams, getQuery);
 
   },
   render: function(){

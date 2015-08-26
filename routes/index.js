@@ -3,7 +3,12 @@ var fs = require('fs');
 var entry = require('../models/entry.js')
 
 exports.api = function(req, res) {
-  entry.getEntries(function(err, entries){
+  var queryOptions = {}
+  queryOptions.lat = Math.floor(parseFloat(req.param('lat')))
+  queryOptions.lng = Math.floor(parseFloat(req.param('lng')))
+
+
+  entry.getEntries(queryOptions, function(err, entries){
     if(err) {
         res.status(500).json({message: "Error with databasecall", err: err});
       } else {
