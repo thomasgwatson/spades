@@ -16,14 +16,16 @@ var HomePage = React.createClass({
   },
   componentDidMount: function() {
     var me = this
-    var scrollToCenter = function(){
-      var imageWidth = document.getElementById('img').offsetWidth
-      var offSetRight = (imageWidth - document.documentElement.offsetWidth )/2
-      window.scrollTo(offSetRight, 0);
-      me.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth})
-    }
-    window.setTimeout( scrollToCenter, 300)
+    $('#img').load(function() {
+      me.scrollToCenter()
+    });
 
+  },
+  scrollToCenter: function(){
+    var imageWidth = document.getElementById('img').offsetWidth
+    var offSetRight = (imageWidth - document.documentElement.offsetWidth )/2
+    window.scrollTo(offSetRight, 0);
+    this.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth})
   },
   rollDownToMap: function(evt){
     evt.preventDefault()
