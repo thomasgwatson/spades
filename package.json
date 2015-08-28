@@ -16,7 +16,7 @@
     "pg.js": "2.11.0",
     "pg-hstore": "~2.3.2"
   },
-  "engine":{
+  "engines":{
     "node": "0.10.22"
   },
   "scripts": {
