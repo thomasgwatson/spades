@@ -83,7 +83,7 @@ var homeHandler = React.createClass({
 
     return (
       <div className="heighty">
-        <HomePage backingImages={backingImages} />
+        <HomePage backingImages={backingImages} theme={theme}/>
         <Map lat={lat}
              lng={lng}
              zoom={zoom}

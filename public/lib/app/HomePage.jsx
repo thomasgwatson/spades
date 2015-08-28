@@ -7,7 +7,8 @@ var HomePage = React.createClass({
     return { image: this.props.backingImages[(Math.floor(Math.random() * 8))],
       offset: 0,
       bottom: -50,
-      imageWidth: '100%'
+      imageWidth: '100%',
+      imageLoaded: false
     };
   },
   getDefaultProps: function(){
@@ -24,7 +25,7 @@ var HomePage = React.createClass({
     var imageWidth = document.getElementById('img').offsetWidth
     var offSetRight = (imageWidth - document.documentElement.offsetWidth )/2
     window.scrollTo(offSetRight, 0);
-    this.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth})
+    this.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth, imageLoaded: true})
   },
   rollDownToMap: function(evt){
     evt.preventDefault()
@@ -34,8 +35,18 @@ var HomePage = React.createClass({
         }, 1000);
   },
   render: function(){
+    var screeningPage
+    if(!this.state.imageLoaded){
+      var screeningPageStylings = {height: "100%", width: "100%", zIndex: 400, top: 0, bottom: 0, right: -99999, left: -99999, position: 'fixed', backgroundColor: this.props.theme.main, color: "rgb(15,15,15)", font: 'indie-font', textAlign: 'center'}
+
+      screeningPage = (
+        <div style={screeningPageStylings}> Loading...
+        </div>
+        )
+    }
     return(
       <div className="container heighty">
+        {screeningPage}
         <img ref='img' id='img' src={'/images/backing/' + this.state.image} className="bg" />
         <div className='scrim' id='scrim' style={{width: this.state.imageWidth}}>
         </div>
