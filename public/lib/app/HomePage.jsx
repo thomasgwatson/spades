@@ -22,7 +22,7 @@ var HomePage = React.createClass({
       window.scrollTo(offSetRight, 0);
       me.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth})
     }
-    window.setTimeout( scrollToCenter, 200)
+    window.setTimeout( scrollToCenter, 300)
 
   },
   rollDownToMap: function(evt){
