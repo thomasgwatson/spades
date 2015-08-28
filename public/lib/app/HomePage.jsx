@@ -19,7 +19,6 @@ var HomePage = React.createClass({
     $('#img').load(function() {
       me.scrollToCenter()
     });
-
   },
   scrollToCenter: function(){
     var imageWidth = document.getElementById('img').offsetWidth
