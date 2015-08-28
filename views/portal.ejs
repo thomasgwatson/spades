@@ -10,13 +10,14 @@
   <script src="/lib/react-router/react-router.13.3.js"></script>
   <script src="/lib/utils/viewportSize.js"></script>
   <script src="/lib/utils/leafet.heat.js"></script>
+  <script src="/lib/utils/customLeaflet.js"></script>
 
   <% if(useJsx) { %>
   <script src="/lib/react/JSXTransformer.js"></script>
   <script type="text/jsx" src="/lib/app/HomePage.jsx"></script>
+  <script type="text/jsx" src="/lib/app/MapTools.jsx"></script>
   <script type="text/jsx" src="/lib/app/Map.jsx"></script>
   <script type="text/jsx" src="/lib/app/appRouter.jsx"></script>
-  <script type="text/jsx" src="/lib/app/base.jsx"></script>
   <% } else { %>
   <script src="/lib/app/clientApp.js"></script>
   <% } %>

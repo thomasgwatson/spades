@@ -59,8 +59,6 @@ var homeHandler = React.createClass({
   mixins: [Router.State, Navigation],
   getInitialState: function() {
     return {
-      lat: 37.8043,
-      lng: -122.3952,
       zoom: 14,
       data: false
     };
@@ -71,13 +69,17 @@ var homeHandler = React.createClass({
     //queryString should specify time-period under review
   },
   render: function() {
-    var lat, lng, zoom
-    lat = this.state.lat
-    lng = this.state.lng
-    zoom = 13
-    if(this.getQuery().lat){lat = this.getQuery().lat}
-    if(this.getQuery().lng){lng = this.getQuery().lng}
+    var lat, lng,
+    seekPosition = true,
+    zoom = 13,
+    theme = {primary: "#FFD700", secondary: "#c7a900"},
+    visualisation
+
+    if(this.getQuery().lat){lat = this.getQuery().lat; seekPosition = false}
+    if(this.getQuery().lng){lng = this.getQuery().lng; seekPosition = false}
     if(this.getQuery().zoom){zoom = this.getQuery().zoom}
+    if(this.getQuery().zoom){zoom = this.getQuery().zoom}
+    if(this.getQuery().vis){visualisation = this.getQuery().vis}
 
     return (
       <div className="heighty">
@@ -85,7 +87,10 @@ var homeHandler = React.createClass({
         <Map lat={lat}
              lng={lng}
              zoom={zoom}
-             transitionTo={this.transitionTo} />
+             seekPosition={seekPosition}
+             transitionTo={this.transitionTo}
+             theme={theme}
+             visualisation={visualisation} />
       </div>
       );
   }

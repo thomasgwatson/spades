@@ -8,16 +8,18 @@ var Map = React.createClass({
   getDefaultProps: function(){
     return {
       lat: 37.8043,
-      lng: -122.3952
+      lng: -122.3952,
+      visualisation: 'marker'
     }
   },
   getInitialState: function(){
     return {
       scrollPositionLeft: 0,
-      data: false
+      loading: false
     }
   },
   requestData: function(lat, lng){
+    this.setState({loading: true})
     var me = this
     $.get("/api/data?lat=" + lat +"&lng=" + lng).done(
       function(data) {
@@ -26,22 +28,72 @@ var Map = React.createClass({
     );
   },
   newData: function(data){
-      // this.markerLayer.clearLayers()
-      this.heatLayer.clearLayers()
+      //clean up
+      this.markerLayer.clearLayers()
+      this.map.removeLayer(this.heatLayer)
+      this.heatLayer = new L.FeatureGroup()
+
+      // buildLayers
       var heatData = this.buildHeatLayer(data)
-      // var markerData = this.buildMarkerLayer(nextProps.data)
       this.heatLayer.addLayer(heatData)
+      var markerData = this.buildMarkerLayer(data)
+      this.markerLayer.addLayer(markerData)
+
+      // because leaflet.heat is borked for .clearLayers()
+      if(this.props.visualisation === 'heatmap'){
+        this.map.addLayer(this.heatLayer);
+      }
+      this.setState({loading: false})
   },
   componentWillReceiveProps: function(nextProps){
     if(nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ){
       this.map.setView(new L.LatLng(nextProps.lat, nextProps.lng), nextProps.zoom)
+    }
+
+    if(Math.floor(nextProps.lat) !== Math.floor(this.props.lat) || Math.floor(nextProps.lng) !== Math.floor(this.props.lng)){
       this.requestData(nextProps.lat, nextProps.lng)
     }
 
-    // Only requestData if the lat and lng is sufficiently different
+    if(nextProps.visualisation !== this.props.visualisation){
+      if(nextProps.visualisation === 'marker'){
+        this.map.removeLayer(this.heatLayer)
+        this.map.addLayer(this.markerLayer)
+      } else if (nextProps.visualisation === 'heatmap') {
+        this.map.removeLayer(this.markerLayer)
+        this.map.addLayer(this.heatLayer)
+      }
+    }
   },
   buildMarkerLayer: function(data){
+    var convertedPoints = [],
+    marker,
+    icon,
+    polygonOptions = {color: this.props.theme.primary},
+    markerCluster = new L.MarkerClusterGroup({spiderfyDistanceMultiplier: 1.6, polygonOptions: polygonOptions})
+    for (var i = 0; i < data.length; i++){
+      var entry = data[i];
+      if (true){
+        icon = new customLeaflet.ThumbnailIcon({iconUrl: entry.thumb})
+      }
+      marker = new L.marker(
+                          [entry.lat, entry.lng],
+                          {
+                            icon: icon,
+                            alt: "Image not available :(",
+                            thumb: entry.thumb
+                          }
+                          )
+      marker.on('click', customLeaflet.presentMarker);
+      var linkToInstagram = "<a href='" + entry.url + "' target='_blank'>See this on Instagram</a>"
+      marker.bindPopup(linkToInstagram, {className: 'graff-popup', closeOnClick: false, closeButton: false});
+      if( entry.thumb.length ){ convertedPoints.push(marker) }
 
+    }
+    if (true){
+      return markerCluster.addLayers(convertedPoints)
+    } else {
+      return L.layerGroup(convertedPoints)
+    }
   },
   buildHeatLayer: function(data){
     var latlngs = []
@@ -50,14 +102,13 @@ var Map = React.createClass({
       var entry = data[i]
       latlngs.push(L.latLng(entry.lat, entry.lng))
     }
-    return L.heatLayer(latlngs, {gradient: {0.2: "#FFD700", 0.9:"#34495e"}, blur:20});
+    return L.heatLayer(latlngs, {gradient: {0.1: "#34495e", 0.7: this.props.theme.primary}, blur:40});
   },
   componentDidMount: function(){
     var me = this
 
-    if ("geolocation" in navigator) {
+    if ("geolocation" in navigator && this.props.seekPosition) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        // me.setState({lat: position.coords.latitude, lng: position.coords.longitude});
         me.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), me.props.zoom)
       });
     }
@@ -81,7 +132,7 @@ var Map = React.createClass({
     this.requestData(lat,lng)
 
     this.backgroundTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/tokugawa.n9764446/{z}/{x}/{y}.png', {
-      attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+      attribution: '<a href="http://graffi.so" target="_blank"> Graffi.so </a>| <a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
     }) // Mapbox map tiles
 
     this.map.addLayer(this.backgroundTiles);
@@ -99,10 +150,7 @@ var Map = React.createClass({
   },
   updateCenter: function(evt){
     if(evt){
-      this.updateURL({
-        center: this.map.getCenter(),
-        zoom: this.map.getZoom()
-      })
+      this.updateURL({})
     }
   },
   updateZoom: function(evt){
@@ -118,11 +166,18 @@ var Map = React.createClass({
     var getParams = {};
     var getQuery = {
       zoom: options.zoom || this.map.getZoom(),
-      lat: options.center.lat || this.map.getCenter().lat,
-      lng: options.center.lng || this.map.getCenter().lng
+      lat: options.lat || this.map.getCenter().lat,
+      lng: options.lng || this.map.getCenter().lng,
+      vis: options.vis || this.props.visualisation
     };
+
     this.props.transitionTo('/', getParams, getQuery);
 
+  },
+  toggleVisualisation: function(visualisation){
+    this.updateURL({
+      vis: visualisation
+    })
   },
   render: function(){
     var scrollOffsetLeft = this.state.scrollPositionLeft
@@ -140,6 +195,11 @@ var Map = React.createClass({
       <div className="container">
         <div ref='leafletTarget' id="map" style={mapStyling}>
         </div>
+        <MapTools map={this.map}
+                  theme={this.props.theme}
+                  mapStyling={mapStyling}
+                  visualisation={this.props.visualisation}
+                  toggleVisualisation={this.toggleVisualisation}/>
       </div>
       )
   }

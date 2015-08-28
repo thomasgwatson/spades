@@ -21,13 +21,13 @@ exports.getEntries = function(queryOptions, callback){
 
   var queryInserts = [
   8,
-  1427383413,
+  1207383413,
   queryOptions.lat -1,
   queryOptions.lat +1,
   queryOptions.lng-1.5,
   queryOptions.lng+1.5,
   false,
-  2000
+  5000
   ]
   console.log("queryInserts", queryInserts)
 
@@ -43,6 +43,9 @@ exports.getEntries = function(queryOptions, callback){
           console.error('error with query', err);
           callback(err);
         } else {
+          if(result){
+            console.log(result.rows.length)
+          }
           callback(null, parseHstoreToObjects(result.rows));
         }
       });

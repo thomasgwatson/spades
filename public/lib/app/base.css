@@ -70,7 +70,60 @@ img.bg {
   font-family: indie-font;
 }
 
+.button-buddy {
+  margin: 0px 5px 0px ;
+  cursor: pointer;
+}
+
+.toggle-buddy{
+  cursor: pointer;
+  font-family: indie-font;
+  color: rgb(15, 15, 15);
+  font-size: 24px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding-bottom: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 2px;
+  text-align: center;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-transform: none;
+  word-spacing: 0px;
+  border-bottom-color: rgb(15, 15, 15);
+  border-style: outset;
+  border-bottom-width: 2px;
+  border-left-color: rgb(15, 15, 15);
+  border-left-width: 1px;
+  border-right-color: rgb(15, 15, 15);
+  border-right-width: 1px;
+  border-top-color: rgb(15, 15, 15);
+  border-top-width: 2px;
+}
+.right-end{
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.left-end{
+  -webkit-border-top-left-radius: 8px;
+  -moz-border-top-left-radius: 8px;
+  border-top-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -moz-border-bottom-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
 #arrow{
+  font-size: 54px;
   animation: bounce 2s infinite;
   -webkit-animation: bounce 2s infinite;
   -moz-animation: bounce 2s infinite;
@@ -79,6 +132,7 @@ img.bg {
   -moz-animation-delay: 2s;
   -webkit-animation-delay: 2s;
   -o-animation-delay: 2s;
+  cursor: pointer;
 }
 
 @-webkit-keyframes bounce {
@@ -102,4 +156,58 @@ img.bg {
  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
  40% {transform: translateY(-20px);}
  60% {transform: translateY(-10px);}
+}
+
+/* TOOLBOX stuff */
+
+.toolbox {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+}
+
+.clickable {
+  pointer-events: auto;
+}
+
+.click-thru {
+  pointer-events: none;
+}
+
+.shadow-right {
+  -webkit-box-shadow: inset 7px 0 9px -7px rgba(0,0,0,0.8);
+  -moz-box-shadow: inset 7px 0 9px -7px rgba(0,0,0,0.8);
+  box-shadow: inset 7px 0 9px -7px rgba(0,0,0,0.8);
+}
+
+.shadow-left {
+  -webkit-box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.8);
+  -moz-box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.8);
+  box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.8);
+}
+
+/* Popup stylez */
+
+.graff-popup{
+  font: 14px/16px Arial, Helvetica, sans-serif;
+}
+
+.graff-popup a {
+  text-decoration: none;
+}
+
+.leaflet-popup-content{
+  margin: 7px 11px;
+}
+
+/* Added borders to all marker images */
+
+.leaflet-marker-pane img{
+  border-color: #fff;
+  border-radius: 0.5px;
+  border: solid;
 }
