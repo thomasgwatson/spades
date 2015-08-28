@@ -17,7 +17,7 @@ var HomePage = React.createClass({
   },
   componentDidMount: function() {
     var me = this
-    $('#img').load(function() {
+    $('#img').imagesLoaded(function() {
       me.scrollToCenter()
     });
   },
