@@ -81,9 +81,6 @@ img.bg {
   color: rgb(15, 15, 15);
   font-size: 24px;
   margin-bottom: 5px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: 0px;
   padding-bottom: 3px;
   padding-left: 6px;
   padding-right: 6px;
@@ -94,14 +91,11 @@ img.bg {
   text-shadow: none;
   text-transform: none;
   word-spacing: 0px;
-  border-bottom-color: rgb(15, 15, 15);
+  border-color: rgb(15, 15, 15);
   border-style: outset;
   border-bottom-width: 2px;
-  border-left-color: rgb(15, 15, 15);
   border-left-width: 1px;
-  border-right-color: rgb(15, 15, 15);
   border-right-width: 1px;
-  border-top-color: rgb(15, 15, 15);
   border-top-width: 2px;
 }
 .right-end{
