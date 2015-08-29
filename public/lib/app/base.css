@@ -214,5 +214,6 @@ img.bg {
 
 .background-color-woo{
   background-color: #FFD700;
-
+  -webkit-transition: height 0.5s ease;
+  transition: height 0.5s ease;
 }
