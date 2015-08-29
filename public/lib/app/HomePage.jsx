@@ -39,9 +39,9 @@ var HomePage = React.createClass({
    var screeningTextStylings = { textAlign: 'center', height: "100%", width: "150%", zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
     return(
       <div className="container heighty">
-        <div style={screeningPageStylings} className="background-color-woo">
+        <div style={screeningPageStylings} className="background-color-woo click-thru">
         </div>
-        <div style={screeningTextStylings} >{this.state.imageLoaded ? " " : "Loading..."}
+        <div style={screeningTextStylings} className="click-thru" >{this.state.imageLoaded ? " " : "Loading..."}
         </div>
         <img ref='img' id='img' src={'/images/backing/' + this.state.image} className="bg" />
         <div className='scrim' id='scrim' style={{width: this.state.imageWidth}}>
