@@ -30,7 +30,7 @@ exports.getEntries = function(queryOptions, callback){
   5000
   ]
   console.log("queryInserts", queryInserts)
-
+  if(process.env.DATABASE_URL){conString = process.env.DATABASE_URL}
   pg.connect(conString, function(err, client, done) {
     if (err) {
       console.error('error with connection', err);
