@@ -35,8 +35,8 @@ var HomePage = React.createClass({
         }, 1000);
   },
   render: function(){
-   var screeningPageStylings = {height: (this.state.imageLoaded ? "0%" : "100%"), width: (this.state.imageLoaded ? "150%" : "600%"), zIndex: 400, top: 0, bottom: 0, right: (-this.state.offset - 1000), left: this.state.offset, position: "absolute" }
-   var screeningTextStylings = { textAlign: 'center', height: "100%", width: "150%", zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
+   var screeningPageStylings = {height: (this.state.imageLoaded ? "0%" : "100%"), width: (this.state.imageLoaded ? "100%" : "600%"), zIndex: 400, top: 0, bottom: 0, right: (-this.state.offset - 1000), left: this.state.offset, position: "absolute" }
+   var screeningTextStylings = { textAlign: 'center', height: "100%", width: (this.state.imageLoaded ? "100%" : "150%"), zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
     return(
       <div className="container heighty">
         <div style={screeningPageStylings} className="background-color-woo click-thru">
