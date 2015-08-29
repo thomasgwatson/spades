@@ -36,7 +36,7 @@ var HomePage = React.createClass({
   },
   render: function(){
    var screeningPageStylings = {height: (this.state.imageLoaded ? "0%" : "100%"), width: "600%", zIndex: 400, top: 0, bottom: 0, right: (-this.state.offset - 1000), left: this.state.offset, position: "absolute" }
-   var screeningTextStylings = { textAlign: 'center', height: "100%", width: "100%", zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
+   var screeningTextStylings = { textAlign: 'center', height: "100%", width: "150%", zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
     return(
       <div className="container heighty">
         <div style={screeningPageStylings} className="background-color-woo">
