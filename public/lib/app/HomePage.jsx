@@ -37,10 +37,10 @@ var HomePage = React.createClass({
   render: function(){
     var screeningPage
     if(!this.state.imageLoaded){
-      var screeningPageStylings = {height: "100%", width: "100%", zIndex: 400, top: 0, bottom: 0, right: -99999, left: -99999, position: 'fixed', backgroundColor: this.props.theme.main, color: "rgb(15,15,15)", font: 'indie-font', textAlign: 'center'}
+      var screeningPageStylings = {height: "100%", width: "100%", zIndex: 400, top: 0, bottom: 0, right: 0, left: 0, position: "absolute", color: "rgb(15,15,15)", textAlign: 'center', fontFamily: "indie-font"}
 
       screeningPage = (
-        <div style={screeningPageStylings}> Loading...
+        <div style={screeningPageStylings} className="background-color-woo"><h1> Loading...</h1>
         </div>
         )
     }
