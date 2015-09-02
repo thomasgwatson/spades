@@ -15,7 +15,7 @@ var Map = React.createClass({
   getInitialState: function(){
     return {
       scrollPositionLeft: 0,
-      loading: false
+      loading: true
     }
   },
   requestData: function(lat, lng){
@@ -180,7 +180,21 @@ var Map = React.createClass({
     })
   },
   render: function(){
-    var scrollOffsetLeft = this.state.scrollPositionLeft
+    var scrollOffsetLeft = this.state.scrollPositionLeft,
+    loadingSpinner
+
+    if(this.state.loading){
+      var spinnerStyling = {
+        position: "absolute",
+        fontSize: "5vw",
+        left: scrollOffsetLeft + (document.documentElement.offsetWidth/2),
+        top: 120,
+        color: this.props.theme.primary
+      }
+      loadingSpinner = (
+          <span className="fa fa-spinner spinner" style={spinnerStyling}></span>
+        )
+    }
 
     var mapStyling = {
         left: scrollOffsetLeft,
@@ -195,6 +209,7 @@ var Map = React.createClass({
       <div className="container">
         <div ref='leafletTarget' id="map" style={mapStyling}>
         </div>
+        {loadingSpinner}
         <MapTools map={this.map}
                   theme={this.props.theme}
                   mapStyling={mapStyling}

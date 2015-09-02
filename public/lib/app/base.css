@@ -211,3 +211,16 @@ img.bg {
   -webkit-transition: height 0.5s ease, width 3s ease;
   transition: height 0.5s ease, width 3s ease;
 }
+
+.spinner {
+  animation: spinner .6s linear infinite;
+  -webkit-animation: spinner 1.6s linear infinite;
+}
+
+@keyframes spin{
+  to {transform: rotate(360deg);}
+}
+
+@-webkit-keyframes spinner {
+  to {-webkit-transform: rotate(360deg);}
+}
