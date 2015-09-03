@@ -32,14 +32,14 @@ var MapTools = React.createClass({
 
     return(
         <div className="toolbox click-thru" style={this.props.mapStyling}>
-          <div className="toolbox" onClick={this.rollUpToTitle} id="return-up" style={{top: 15, right: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary, cursor: 'pointer'}}>
+          <div className="toolbox" onClick={this.rollUpToTitle} id="return-up" style={{top: 0, right: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary, cursor: 'pointer'}}>
             <span className="fa fa-chevron-circle-up clickable" ></span>
           </div>
           <div className="toolbox" id="zoom-buttons" style={{bottom: 15, right: 5, position: "absolute", fontSize: "54px", color: this.props.theme.primary}}>
             <span onClick={this.handleZoomInClick} className="fa fa-plus-circle button-buddy clickable" id=""  ></span>
             <span onClick={this.handleZoomOutClick}  className="fa fa-minus-circle button-buddy clickable" id=""  ></span>
           </div>
-          <div className="toolbox title-text" style={{bottom: 0, left: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary}}>
+          <div className="toolbox title-text" style={{top: 0, left: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary}}>
             <span>Graffi.so</span>
           </div>
           <div className="toolbox" style={{bottom: 26, right: 120, position: "absolute", fontSize: "54px", color: this.props.theme.primary}}>
