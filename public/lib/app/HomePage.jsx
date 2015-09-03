@@ -19,7 +19,7 @@ var HomePage = React.createClass({
     var me = this
     $('#img').imagesLoaded(function() {
       me.scrollToCenter()
-      setTimeout(me.scrollToCenter(), 200)
+      setTimeout(me.scrollToCenter(), 500)
     });
   },
   scrollToCenter: function(){
