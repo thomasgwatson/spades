@@ -128,7 +128,8 @@ img.bg {
   -webkit-animation-delay: 2s;
   -o-animation-delay: 2s;
   cursor: pointer;
-  line-height: 0px;
+  line-height: 5px;
+  margin-bottom: 10px;
 }
 
 @-webkit-keyframes bounce {
