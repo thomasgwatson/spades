@@ -40,7 +40,7 @@ var HomePage = React.createClass({
     var screeningPageStylings = {height: (this.state.imageLoaded ? "0%" : "100%"), width: (this.state.imageLoaded ? "100%" : "600%"), zIndex: 400, top: 0, bottom: 0, right: (-this.state.offset - 1000), left: this.state.offset, position: "absolute" }
     var screeningTextStylings = { textAlign: 'center', height: "100%", width: (this.state.imageLoaded ? "100%" : "150%"), zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
 
-    if(this.state.offSet){window.scrollTo(this.state.offSet, 0);}
+    if(this.state.offSet){setTimeout(window.scrollTo(this.state.offSet, 0), 100);}
 
     return(
       <div className="container heighty">
