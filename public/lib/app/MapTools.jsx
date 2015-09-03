@@ -29,7 +29,6 @@ var MapTools = React.createClass({
   render: function(){
     var heatmapButtonStyling = {backgroundColor: this.props.visualisation=== "heatmap" ? this.props.theme.secondary : this.props.theme.primary}
     var markerButtonStyling = {backgroundColor: this.props.visualisation=== "marker" ? this.props.theme.secondary : this.props.theme.primary}
-
     return(
         <div className="toolbox click-thru" style={this.props.mapStyling}>
           <div className="toolbox" onClick={this.rollUpToTitle} id="return-up" style={{top: 0, right: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary, cursor: 'pointer'}}>
@@ -39,7 +38,7 @@ var MapTools = React.createClass({
             <span onClick={this.handleZoomInClick} className="fa fa-plus-circle button-buddy clickable" id=""  ></span>
             <span onClick={this.handleZoomOutClick}  className="fa fa-minus-circle button-buddy clickable" id=""  ></span>
           </div>
-          <div className="toolbox title-text" style={{top: 0, left: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary}}>
+          <div className="toolbox" style={{top: 0, left: 10, position: "absolute", fontSize: "54px", color: this.props.theme.primary, zIndex: 3, fontFamily: "indie-font", textShadow: "0px 2px 4px #222"}}>
             <span>Graffi.so</span>
           </div>
           <div className="toolbox" style={{bottom: 26, right: 120, position: "absolute", fontSize: "54px", color: this.props.theme.primary}}>

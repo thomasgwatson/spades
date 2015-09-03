@@ -46,10 +46,10 @@ var HomePage = React.createClass({
         <img ref='img' id='img' src={'/images/backing/' + this.state.image} className="bg" />
         <div className='scrim' id='scrim' style={{width: this.state.imageWidth}}>
         </div>
-        <div className='title-text' id='title-text' style={{left: this.state.offset + 50 + 'px'}}>
+        <div className='title-text' id='title-text' style={{left: this.state.offset + 25 + 'px', bottom: 10}}>
           <span>Graffi.so</span>
         </div>
-        <div className='blurb-text' id='blurb-text' style={{right: -this.state.offset + 50 + 'px', bottom: this.state.bottom}}>
+        <div className='blurb-text' id='blurb-text' style={{right: -this.state.offset + 25 + 'px', bottom: this.state.bottom}}>
           <span>Street Art Discovery Engine</span>{" "}<span onClick={this.rollDownToMap} className="fa fa-chevron-circle-down" id="arrow"></span>
         </div>
       </div>

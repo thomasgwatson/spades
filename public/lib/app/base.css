@@ -45,15 +45,15 @@ img.bg {
 .title-text {
   color: white;
   position: absolute;
-  bottom: 10px;
   left: 30px;
   width: auto;
   height: auto;
   -webkit-transition: left 1s ease;
   transition: left 1s ease;
-  font-size: 4vw;
+  font-size: 5vw;
   z-index: 3;
   font-family: indie-font;
+  line-height: 4vw;
 }
 
 .blurb-text {
@@ -68,6 +68,7 @@ img.bg {
   z-index: 3;
   font-size: 4vw;
   font-family: indie-font;
+  line-height: 4vw;
 }
 
 .button-buddy {
@@ -127,6 +128,7 @@ img.bg {
   -webkit-animation-delay: 2s;
   -o-animation-delay: 2s;
   cursor: pointer;
+  line-height: 0px;
 }
 
 @-webkit-keyframes bounce {
