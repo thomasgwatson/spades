@@ -5,57 +5,57 @@
 var Map = React.createClass({
   heatLayer: new L.FeatureGroup(),
   markerLayer: new L.FeatureGroup(),
-  getDefaultProps: function(){
+  getDefaultProps: function () {
     return {
       lat: 37.8043,
       lng: -122.3952,
-      visualisation: 'marker'
+      visualisation: 'marker',
     }
   },
-  getInitialState: function(){
+  getInitialState: function () {
     return {
       scrollPositionLeft: 0,
-      loading: true
+      loading: true,
     }
   },
-  requestData: function(lat, lng){
+  requestData: function (lat, lng) {
     this.setState({loading: true})
     var me = this
-    $.get("/api/data?lat=" + lat +"&lng=" + lng).done(
-      function(data) {
+    $.get("/api/data?lat=" + lat + "&lng=" + lng).done(
+      function (data) {
         me.newData(data)
       }
     );
   },
-  newData: function(data){
-      //clean up
-      this.markerLayer.clearLayers()
-      this.map.removeLayer(this.heatLayer)
-      this.heatLayer = new L.FeatureGroup()
+  newData: function (data) {
+    //clean up of layers
+    this.markerLayer.clearLayers()
+    this.map.removeLayer(this.heatLayer)
+    this.map.removeLayer(this.markerLayer)
+    this.heatLayer = new L.FeatureGroup()
 
-      // buildLayers
-      var heatData = this.buildHeatLayer(data)
-      this.heatLayer.addLayer(heatData)
-      var markerData = this.buildMarkerLayer(data)
-      this.markerLayer.addLayer(markerData)
+    // buildLayers
+    var heatData = this.buildHeatLayer(data)
+    this.heatLayer.addLayer(heatData)
+    var markerData = this.buildMarkerLayer(data)
+    this.markerLayer.addLayer(markerData)
 
-      // because leaflet.heat is borked for .clearLayers()
-      if(this.props.visualisation === 'heatmap'){
-        this.map.addLayer(this.heatLayer);
-      }
-      this.setState({loading: false})
+    // Depending on props, show specific layer
+    if (this.props.visualisation === 'marker') this.map.addLayer(this.markerLayer)
+    if (this.props.visualisation === 'heatmap') this.map.addLayer(this.heatLayer)
+    this.setState({loading: false})
   },
-  componentWillReceiveProps: function(nextProps){
-    if(nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ){
+  componentWillReceiveProps: function (nextProps) {
+    if(nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ) {
       this.map.setView(new L.LatLng(nextProps.lat, nextProps.lng), nextProps.zoom)
     }
 
-    if(Math.floor(nextProps.lat) !== Math.floor(this.props.lat) || Math.floor(nextProps.lng) !== Math.floor(this.props.lng)){
+    if(Math.floor(nextProps.lat) !== Math.floor(this.props.lat) || Math.floor(nextProps.lng) !== Math.floor(this.props.lng)) {
       this.requestData(nextProps.lat, nextProps.lng)
     }
 
-    if(nextProps.visualisation !== this.props.visualisation){
-      if(nextProps.visualisation === 'marker'){
+    if(nextProps.visualisation !== this.props.visualisation) {
+      if(nextProps.visualisation === 'marker') {
         this.map.removeLayer(this.heatLayer)
         this.map.addLayer(this.markerLayer)
       } else if (nextProps.visualisation === 'heatmap') {
@@ -64,15 +64,15 @@ var Map = React.createClass({
       }
     }
   },
-  buildMarkerLayer: function(data){
+  buildMarkerLayer: function (data) {
     var convertedPoints = [],
     marker,
     icon,
     polygonOptions = {color: this.props.theme.primary},
     markerCluster = new L.MarkerClusterGroup({spiderfyDistanceMultiplier: 1.6, polygonOptions: polygonOptions})
-    for (var i = 0; i < data.length; i++){
+    for (var i = 0; i < data.length; i++) {
       var entry = data[i];
-      if (true){
+      if (true) {
         icon = new customLeaflet.ThumbnailIcon({iconUrl: entry.thumb})
       }
       marker = new L.marker(
@@ -86,29 +86,29 @@ var Map = React.createClass({
       marker.on('click', customLeaflet.presentMarker);
       var linkToInstagram = "<a href='" + entry.url + "' target='_blank'>See this on Instagram</a>"
       marker.bindPopup(linkToInstagram, {className: 'graff-popup', closeOnClick: false, closeButton: false});
-      if( entry.thumb.length ){ convertedPoints.push(marker) }
+      if( entry.thumb.length ) { convertedPoints.push(marker) }
 
     }
-    if (true){
+    if (true) {
       return markerCluster.addLayers(convertedPoints)
     } else {
       return L.layerGroup(convertedPoints)
     }
   },
-  buildHeatLayer: function(data){
+  buildHeatLayer: function (data) {
     var latlngs = []
 
-    for (var i = 0; i < data.length; i++){
+    for (var i = 0; i < data.length; i++) {
       var entry = data[i]
       latlngs.push(L.latLng(entry.lat, entry.lng))
     }
     return L.heatLayer(latlngs, {gradient: {0.1: "#34495e", 0.7: this.props.theme.primary}, blur:40});
   },
-  componentDidMount: function(){
+  componentDidMount: function () {
     var me = this
 
     if ("geolocation" in navigator && this.props.seekPosition) {
-      navigator.geolocation.getCurrentPosition(function(position) {
+      navigator.geolocation.getCurrentPosition(function (position) {
         me.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), me.props.zoom)
       });
     }
@@ -135,61 +135,62 @@ var Map = React.createClass({
       attribution: '<a href="http://graffi.so" target="_blank"> Graffi.so </a>| <a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
     }) // Mapbox map tiles
 
-    this.map.addLayer(this.backgroundTiles);
-    this.map.addLayer(this.markerLayer);
-    this.map.addLayer(this.heatLayer);
+    this.map.addLayer(this.backgroundTiles)
+    this.map.addLayer(this.markerLayer)
+    this.map.addLayer(this.heatLayer)
 
     $(window).scroll(function () {
-      var scrollPositionLeft = $(window).scrollLeft();
+      var scrollPositionLeft = $(window).scrollLeft()
       me.setState({scrollPositionLeft: scrollPositionLeft})
-    });
+    })
 
-    this.map.on('zoomend', this.updateZoom);
-    this.map.on('moveend', this.updateCenter);
+    this.map.on('zoomend', this.updateZoom)
+    this.map.on('moveend', this.updateCenter)
 
   },
-  updateCenter: function(evt){
-    if(evt){
+  updateCenter: function (evt) {
+    if(evt) {
       this.updateURL({})
     }
   },
-  updateZoom: function(evt){
-    if(evt){
+  updateZoom: function (evt) {
+    if(evt) {
       this.updateURL({
         center: this.map.getCenter(),
         zoom: this.map.getZoom()
       })
     }
   },
-  updateURL: function(options){
+  updateURL: function (options) {
 
-    var getParams = {};
+    var getParams = {}
     var getQuery = {
       zoom: options.zoom || this.map.getZoom(),
       lat: options.lat || this.map.getCenter().lat,
       lng: options.lng || this.map.getCenter().lng,
       vis: options.vis || this.props.visualisation
-    };
+    }
 
-    this.props.transitionTo('/', getParams, getQuery);
+    this.props.transitionTo('/', getParams, getQuery)
 
   },
-  toggleVisualisation: function(visualisation){
+  toggleVisualisation: function (visualisation) {
     this.updateURL({
       vis: visualisation
     })
   },
-  render: function(){
+  render: function () {
     var scrollOffsetLeft = this.state.scrollPositionLeft,
     loadingSpinner
+    console.log(this.props.visualisation)
 
-    if(this.state.loading){
+    if(this.state.loading) {
       var spinnerStyling = {
         position: "absolute",
         fontSize: "5vw",
         left: scrollOffsetLeft + (document.documentElement.offsetWidth/2),
         top: 120,
-        color: this.props.theme.primary
+        color: this.props.theme.primary,
       }
       loadingSpinner = (
           <span className="fa fa-spinner spinner" style={spinnerStyling}></span>
@@ -197,17 +198,17 @@ var Map = React.createClass({
     }
 
     var mapStyling = {
-        left: scrollOffsetLeft,
-        top: 0,
-        bottom: 0,
-        right: -scrollOffsetLeft,
-        position: 'absolute',
-        backgroundColor: "f1f1f1"
-      }
+      left: scrollOffsetLeft,
+      top: 0,
+      bottom: 0,
+      right: -scrollOffsetLeft,
+      position: 'absolute',
+      backgroundColor: 'f1f1f1',
+    }
 
     return (
-      <div className="container">
-        <div ref='leafletTarget' id="map" style={mapStyling}>
+      <div className='container'>
+        <div ref='leafletTarget' id='map' style={mapStyling}>
         </div>
         {loadingSpinner}
         <MapTools map={this.map}
@@ -217,5 +218,5 @@ var Map = React.createClass({
                   toggleVisualisation={this.toggleVisualisation}/>
       </div>
       )
-  }
+  },
 })

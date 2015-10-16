@@ -17,6 +17,13 @@ var HomePage = React.createClass({
   },
   componentDidMount: function () {
     var me = this
+    $('body').on({
+      'mousewheel': function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+      },
+    })
+    if (Math.max(document.documentElement.clientWidth, window.innerWidth || 1000) < 700) me.rollDownToMap()
     $('#img').imagesLoaded(function () {
       me.scrollToCenter()
     })
@@ -28,7 +35,7 @@ var HomePage = React.createClass({
     this.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth, imageLoaded: true})
   },
   rollDownToMap: function(evt){
-    evt.preventDefault()
+    if(evt) evt.preventDefault()
     var target = $('#map')
     $('html,body').animate({
           scrollTop: target.offset().top
@@ -53,6 +60,6 @@ var HomePage = React.createClass({
           <span>Street Art Discovery Engine</span>{" "}<span onClick={this.rollDownToMap} className="fa fa-chevron-circle-down" id="arrow"></span>
         </div>
       </div>
-      )
-  }
+    )
+  },
 })
