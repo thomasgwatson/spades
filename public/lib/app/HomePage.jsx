@@ -3,28 +3,28 @@
  */
 
 var HomePage = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return { image: this.props.backingImages[(Math.floor(Math.random() * 8))],
       offset: 0,
       bottom: -50,
       imageWidth: '100%',
-      imageLoaded: false
-    };
+      imageLoaded: false,
+    }
   },
-  getDefaultProps: function(){
+  getDefaultProps: function () {
     return {
     }
   },
-  componentDidMount: function() {
+  componentDidMount: function () {
     var me = this
-    $('#img').imagesLoaded(function() {
+    $('#img').imagesLoaded(function () {
       me.scrollToCenter()
-    });
+    })
   },
-  scrollToCenter: function(){
+  scrollToCenter: function () {
     var imageWidth = document.getElementById('img').offsetWidth
     var offSetRight = (imageWidth - document.documentElement.offsetWidth )/2
-    window.scrollTo(offSetRight, 0);
+    window.scrollTo(offSetRight, 0)
     this.setState({offset: offSetRight, bottom: 10, imageWidth: imageWidth, imageLoaded: true})
   },
   rollDownToMap: function(evt){
@@ -32,13 +32,13 @@ var HomePage = React.createClass({
     var target = $('#map')
     $('html,body').animate({
           scrollTop: target.offset().top
-        }, 1000);
+        }, 1000)
   },
-  render: function(){
-   var screeningPageStylings = {height: (this.state.imageLoaded ? "0%" : "100%"), width: (this.state.imageLoaded ? "100%" : "600%"), zIndex: 400, top: 0, bottom: 0, right: (-this.state.offset - 1000), left: this.state.offset, position: "absolute" }
-   var screeningTextStylings = { textAlign: 'center', height: "100%", width: (this.state.imageLoaded ? "100%" : "150%"), zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: "rgb(15,15,15)", fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
-    return(
-      <div className="container heighty">
+  render: function () {
+   var screeningPageStylings = { height: (this.state.imageLoaded ? '0%' : '100%'), width: (this.state.imageLoaded ? '100%' : '600%'), zIndex: 400, top: 0, bottom: 0, right: (-this.state.offset - 1000), left: this.state.offset, position: 'absolute' }
+   var screeningTextStylings = { textAlign: 'center', height: '100%', width: (this.state.imageLoaded ? '100%' : '150%'), zIndex: 401, top: 0, bottom: 0, position: 'absolute', color: 'rgb(15,15,15)', fontFamily: "indie-font", fontSize: 50, right: -this.state.offset, left: this.state.offset}
+    return (
+      <div className='container heighty'>
         <div style={screeningPageStylings} className="background-color-woo click-thru">
         </div>
         <div style={screeningTextStylings} className="click-thru" >{this.state.imageLoaded ? " " : "Loading..."}
