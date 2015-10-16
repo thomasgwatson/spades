@@ -23,9 +23,9 @@ var HomePage = React.createClass({
         e.stopPropagation()
       },
     })
-    if (Math.max(document.documentElement.clientWidth, window.innerWidth || 1000) < 700) me.rollDownToMap()
     $('#img').imagesLoaded(function () {
       me.scrollToCenter()
+      if (Math.max(document.documentElement.clientWidth, window.innerWidth || 1000) < 700) me.rollDownToMap()
     })
   },
   scrollToCenter: function () {
