@@ -46,16 +46,16 @@ var Map = React.createClass({
     this.setState({loading: false})
   },
   componentWillReceiveProps: function (nextProps) {
-    if(nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ) {
+    if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng || nextProps.zoom !== this.props.zoom ) {
       this.map.setView(new L.LatLng(nextProps.lat, nextProps.lng), nextProps.zoom)
     }
 
-    if(Math.floor(nextProps.lat) !== Math.floor(this.props.lat) || Math.floor(nextProps.lng) !== Math.floor(this.props.lng)) {
+    if (Math.floor(nextProps.lat) !== Math.floor(this.props.lat) || Math.floor(nextProps.lng) !== Math.floor(this.props.lng)) {
       this.requestData(nextProps.lat, nextProps.lng)
     }
 
-    if(nextProps.visualisation !== this.props.visualisation) {
-      if(nextProps.visualisation === 'marker') {
+    if (nextProps.visualisation !== this.props.visualisation) {
+      if (nextProps.visualisation === 'marker') {
         this.map.removeLayer(this.heatLayer)
         this.map.addLayer(this.markerLayer)
       } else if (nextProps.visualisation === 'heatmap') {
@@ -71,7 +71,7 @@ var Map = React.createClass({
     polygonOptions = {color: this.props.theme.primary},
     markerCluster = new L.MarkerClusterGroup({spiderfyDistanceMultiplier: 1.6, polygonOptions: polygonOptions})
     for (var i = 0; i < data.length; i++) {
-      var entry = data[i];
+      var entry = data[i]
       if (true) {
         icon = new customLeaflet.ThumbnailIcon({iconUrl: entry.thumb})
       }
@@ -79,14 +79,14 @@ var Map = React.createClass({
                           [entry.lat, entry.lng],
                           {
                             icon: icon,
-                            alt: "Image not available :(",
+                            alt: 'Image not available :(',
                             thumb: entry.thumb
                           }
                           )
-      marker.on('click', customLeaflet.presentMarker);
+      marker.on('click', customLeaflet.presentMarker)
       var linkToInstagram = "<a href='" + entry.url + "' target='_blank'>See this on Instagram</a>"
-      marker.bindPopup(linkToInstagram, {className: 'graff-popup', closeOnClick: false, closeButton: false});
-      if( entry.thumb.length ) { convertedPoints.push(marker) }
+      marker.bindPopup(linkToInstagram, {className: 'graff-popup', closeOnClick: false, closeButton: false})
+      if ( entry.thumb.length ) { convertedPoints.push(marker) }
 
     }
     if (true) {
@@ -102,34 +102,34 @@ var Map = React.createClass({
       var entry = data[i]
       latlngs.push(L.latLng(entry.lat, entry.lng))
     }
-    return L.heatLayer(latlngs, {gradient: {0.1: "#34495e", 0.7: this.props.theme.primary}, blur:40});
+    return L.heatLayer(latlngs, {gradient: {0.1: '#34495e', 0.7: this.props.theme.primary}, blur: 40})
   },
   componentDidMount: function () {
     var me = this
 
-    if ("geolocation" in navigator && this.props.seekPosition) {
+    if ('geolocation' in navigator && this.props.seekPosition) {
       navigator.geolocation.getCurrentPosition(function (position) {
         me.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), me.props.zoom)
-      });
+      })
     }
 
     var lat = this.props.lat
     var lng = this.props.lng
 
     this.map = new L.Map(this.refs.leafletTarget.getDOMNode(), {
-        layers: [],
-        center: new L.LatLng(lat, lng),
-        zoom: this.props.zoom,
-        minZoom: 10,
-        maxBounds:[[-85,-180.0],[85,180.0]],
-        zoomControl: false,
-        markerZoomAnimation: false,
-        fadeAnimation: false,
-        boxZoom: true
-      }
-    );
+      layers: [],
+      center: new L.LatLng(lat, lng),
+      zoom: Math.round(this.props.zoom),
+      minZoom: 10,
+      maxBounds: [[-85, -180.0], [85, 180.0]],
+      zoomControl: false,
+      markerZoomAnimation: false,
+      fadeAnimation: false,
+      boxZoom: true,
+    }
+    )
 
-    this.requestData(lat,lng)
+    this.requestData(lat, lng)
 
     this.backgroundTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/tokugawa.n9764446/{z}/{x}/{y}.png', {
       attribution: '<a href="http://graffi.so" target="_blank"> Graffi.so </a>| <a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
@@ -149,34 +149,29 @@ var Map = React.createClass({
 
   },
   updateCenter: function (evt) {
-    if(evt) {
+    if (evt) {
       this.updateURL({})
     }
   },
   updateZoom: function (evt) {
-    if(evt) {
-      this.updateURL({
-        center: this.map.getCenter(),
-        zoom: this.map.getZoom()
-      })
+    if (evt) {
+      this.updateURL({})
     }
   },
   updateURL: function (options) {
-
     var getParams = {}
     var getQuery = {
-      zoom: options.zoom || this.map.getZoom(),
+      zoom: options.zoom || Math.round(this.map.getZoom()),
       lat: options.lat || this.map.getCenter().lat,
       lng: options.lng || this.map.getCenter().lng,
-      vis: options.vis || this.props.visualisation
+      vis: options.vis || this.props.visualisation,
     }
 
     this.props.transitionTo('/', getParams, getQuery)
-
   },
   toggleVisualisation: function (visualisation) {
     this.updateURL({
-      vis: visualisation
+      vis: visualisation,
     })
   },
   render: function () {
@@ -184,7 +179,7 @@ var Map = React.createClass({
     loadingSpinner
     console.log(this.props.visualisation)
 
-    if(this.state.loading) {
+    if (this.state.loading) {
       var spinnerStyling = {
         position: "absolute",
         fontSize: "5vw",
@@ -193,7 +188,7 @@ var Map = React.createClass({
         color: this.props.theme.primary,
       }
       loadingSpinner = (
-          <span className="fa fa-spinner spinner" style={spinnerStyling}></span>
+          <span className='fa fa-spinner spinner' style={spinnerStyling}></span>
         )
     }
 

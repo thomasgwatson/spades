@@ -78,7 +78,7 @@ var homeHandler = React.createClass({
 
     if (this.getQuery().lat) lat = this.getQuery().lat; seekPosition = false
     if (this.getQuery().lng) lng = this.getQuery().lng; seekPosition = false
-    if (this.getQuery().zoom) zoom = this.getQuery().zoom
+    if (this.getQuery().zoom) zoom = Math.round(this.getQuery().zoom)
     if (this.getQuery().vis) visualisation = this.getQuery().vis
 
     return (
