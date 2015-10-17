@@ -18,7 +18,7 @@ var HomePage = React.createClass({
   componentDidMount: function () {
     var me = this
     $('body').on({
-      'mousewheel': function (e) {
+      'scroll': function (e) {
         e.preventDefault()
         e.stopPropagation()
       },
