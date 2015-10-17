@@ -199,6 +199,7 @@ var Map = React.createClass({
       right: -scrollOffsetLeft,
       position: 'absolute',
       backgroundColor: 'f1f1f1',
+      overflow: 'hidden'
     }
 
     return (
